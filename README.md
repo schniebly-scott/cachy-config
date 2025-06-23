@@ -7,4 +7,4 @@ stow --dotfiles .
 ```
 ## Major Changes
 - Using [Hyprpanel](https://hyprpanel.com/), removed waybar and mako
-
+- Added TLP and removed power-profiles-daemon
