@@ -8,3 +8,11 @@ stow --dotfiles .
 ## Major Changes
 - Using [Hyprpanel](https://hyprpanel.com/), removed waybar and mako
 - Added TLP and removed power-profiles-daemon
+- Added [sugar-dark](https://github.com/MarianArlt/sddm-sugar-dark) theme
+
+## Commands ran
+```
+xdg-mime default eog.desktop image/jpeg
+xdg-mime default eog.desktop image/png
+xdg-mime default eog.desktop image/webp
+```
