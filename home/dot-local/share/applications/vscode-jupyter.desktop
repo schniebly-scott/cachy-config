@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=VS Code Jupyter
+Comment=Launch VS Code with Jupyter environment
+Exec=fish -c 'source ~/.config/fish/config.fish; code-jupyter'
+Icon=code
+Terminal=false
+Type=Application
+Categories=Development;IDE;
+StartupNotify=true
+X-Desktop-File-Install-Version=0.28
+

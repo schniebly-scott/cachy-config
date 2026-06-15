@@ -3,6 +3,10 @@
 
 stow --dotfiles --adopt -t ~/ home
 
+# User scripts
+chmod +x user-programs/*
+stow --dotfiles --adopt -t /usr/local/bin/ user-programs
+
 # system-wide configs
 # sudo stow --dotfiles -t / rootdir
 

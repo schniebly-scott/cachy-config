@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Usage: claude-fix-file issue-writeups/fix-feature.md
+if [ $# -ne 1 ]; then
+    echo "Usage: $(basename "$0") <path/to/issue_file.md>" >&2
+    exit 1
+fi
+
+ISSUE_PATH="$1"
+
+if [ ! -f "$ISSUE_PATH" ]; then
+    echo "Error: ${ISSUE_PATH} not found" >&2
+    exit 1
+fi
+
+# Derive a slug from the filename (strip directory and .md extension)
+ISSUE_FILE="$(basename "$ISSUE_PATH")"
+ISSUE_NAME="${ISSUE_FILE%.md}"
+WORKTREE_NAME="${ISSUE_NAME//_/-}"
+BRANCH_NAME="worktree-${WORKTREE_NAME}"
+WORKTREE_DIR=".claude/worktrees/${WORKTREE_NAME}"
+
+# 1. Run Claude in a worktree to implement the fix/feature
+claude --worktree "${WORKTREE_NAME}" -p "Implement the fix/feature that is detailed in ${ISSUE_PATH}"
+
+# 2. Commit the changes in the worktree
+pushd "${WORKTREE_DIR}" > /dev/null
+
+git add .
+git commit -m "Implemented fix: ${ISSUE_NAME}"
+git push --set-upstream origin "${BRANCH_NAME}"
+
+# 3. Create PR to develop on the remote
+gh pr create \
+    --base develop \
+    --head "${BRANCH_NAME}" \
+    --title "Implemented fix: ${ISSUE_NAME}" \
+    --body "Implements the fix/feature detailed in ${ISSUE_PATH}"
+
+popd > /dev/null
+
+# 4. Remove the worktree locally
+git worktree remove "${WORKTREE_DIR}"
+
+echo "Done: PR created for branch ${BRANCH_NAME}, worktree removed."
