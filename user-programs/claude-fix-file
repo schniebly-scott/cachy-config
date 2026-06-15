@@ -22,7 +22,7 @@ BRANCH_NAME="worktree-${WORKTREE_NAME}"
 WORKTREE_DIR=".claude/worktrees/${WORKTREE_NAME}"
 
 # 1. Run Claude in a worktree to implement the fix/feature
-claude --worktree "${WORKTREE_NAME}" -p "Implement the fix/feature that is detailed in ${ISSUE_PATH}"
+claude --dangerously-skip-permissions --worktree "${WORKTREE_NAME}" -p "Implement the fix/feature that is detailed in ${ISSUE_PATH}"
 
 # 2. Commit the changes in the worktree
 pushd "${WORKTREE_DIR}" > /dev/null
